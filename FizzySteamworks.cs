@@ -207,12 +207,14 @@ namespace Mirror.FizzySteam
         server.Send(connectionId, data, channelId);
       }
     }
-    public override void ServerDisconnect(int connectionId)
+    public override bool ServerDisconnect(int connectionId)
     {
       if (ServerActive())
       {
         server.Disconnect(connectionId);
       }
+
+      return true;
     }
     public override string ServerGetClientAddress(int connectionId) => ServerActive() ? server.ServerGetClientAddress(connectionId) : string.Empty;
     public override void ServerStop()
