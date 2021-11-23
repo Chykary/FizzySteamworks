@@ -1,0 +1,20 @@
+{
+  "name": "com.mirror.steamworks.net",
+  "displayName": "FizzySteamworks",
+  "version": "5.0.1",
+  "unity": "2019.4",
+  "author": {
+    "name": "Mirror Community",
+    "url": "https://discord.gg/XXWRwf2kNd"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesMcGhee/FizzySteamworks.git?path=/com.mirror.steamworks.net"
+  },
+  "keywords": [
+    "steam",
+    "steamworks"
+  ],
+  "description": "FizzySteamworks is a Mirror transport for use with Steamworks.NET. You must have already installed Steamworks.NET, you can get Steamworks.NET from git by following the instructions here found https://github.com/rlabrecque/Steamworks.NET"
+}
