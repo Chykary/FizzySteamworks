@@ -17,5 +17,5 @@
     "steam",
     "steamworks"
   ],
-  "description": "FizzySteamworks is a Mirror transport for use with Steamworks.NET. You must have already installed Steamworks.NET, you can get Steamworks.NET from git by following the instructions here found https://github.com/rlabrecque/Steamworks.NET"
+  "description": "FizzySteamworks is a Mirror transport for use with Steamworks.NET. You must have already installed Steamworks.NET, you can get Steamworks.NET from git by following the instructions here found [GitHub](https://github.com/rlabrecque/Steamworks.NET)"
 }
