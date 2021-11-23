@@ -7,7 +7,11 @@
     "name": "Mirror Community",
     "url": "https://discord.gg/XXWRwf2kNd"
   },
-  "license": "MIT",
+  "dependencies": {
+    "com.rlabrecque.steamworks.net": "15.0.1"
+  },
+  "documentationUrl": "https://github.com/Chykary/FizzySteamworks",
+  "license": "https://github.com/JamesMcGhee/FizzySteamworks/blob/master/com.mirror.steamworks.net/LICENSE",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JamesMcGhee/FizzySteamworks.git?path=/com.mirror.steamworks.net"
