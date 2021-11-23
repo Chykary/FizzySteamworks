@@ -11,7 +11,7 @@
   "license": "https://github.com/JamesMcGhee/FizzySteamworks/blob/master/com.mirror.steamworks.net/LICENSE",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JamesMcGhee/FizzySteamworks.git?path=/com.mirror.steamworks.net"
+    "url": "git+https://github.com/Chykary/FizzySteamworks.git?path=/com.mirror.steamworks.net"
   },
   "keywords": [
     "steam",
