@@ -29,7 +29,11 @@ namespace Mirror.FizzySteam
             connToMirrorID = new BidirectionalDictionary<HSteamNetConnection, int>();
             steamIDToMirrorID = new BidirectionalDictionary<CSteamID, int>();
             nextConnectionID = 1;
+#if UNITY_SERVER
+            c_onConnectionChange = Callback<SteamNetConnectionStatusChangedCallback_t>.CreateGameServer(OnConnectionStatusChanged);
+#else
             c_onConnectionChange = Callback<SteamNetConnectionStatusChangedCallback_t>.Create(OnConnectionStatusChanged);
+#endif
         }
 
         public static NextServer CreateServer(FizzySteamworks transport, int maxConnections)
