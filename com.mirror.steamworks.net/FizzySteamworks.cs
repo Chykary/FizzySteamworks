@@ -13,20 +13,11 @@ namespace Mirror.FizzySteam
         private static IClient client;
         private static IServer server;
 
-        [SerializeField]
-        public EP2PSend[] Channels = new EP2PSend[2] { EP2PSend.k_EP2PSendReliable, EP2PSend.k_EP2PSendUnreliableNoDelay };
-
         [Tooltip("Timeout for connecting in seconds.")]
         public int Timeout = 25;
-        [Tooltip("Allow or disallow P2P connections to fall back to being relayed through the Steam servers if a direct connection or NAT-traversal cannot be established.")]
-        public bool AllowSteamRelay = true;
-
-        [Tooltip("Use SteamSockets instead of the (deprecated) SteamNetworking. This will always use Relay.")]
-        public bool UseNextGenSteamNetworking = true;
 
         private void OnEnable()
         {
-            Debug.Assert(Channels != null && Channels.Length > 0, "No channel configured for FizzySteamworks.");
             Invoke(nameof(InitRelayNetworkAccess), 1f);
         }
 
@@ -83,17 +74,8 @@ namespace Mirror.FizzySteam
 
                 if (!ClientActive() || client.Error)
                 {
-                    if (UseNextGenSteamNetworking)
-                    {
-                        Debug.Log($"Starting client [SteamSockets], target address {address}.");
-                        client = NextClient.CreateClient(this, address);
-                    }
-                    else
-                    {
-                        Debug.Log($"Starting client [DEPRECATED SteamNetworking], target address {address}. Relay enabled: {AllowSteamRelay}");
-                        SteamNetworking.AllowP2PPacketRelay(AllowSteamRelay);
-                        client = LegacyClient.CreateClient(this, address);
-                    }
+                    Debug.Log($"Starting client [SteamSockets], target address {address}.");
+                    client = NextClient.CreateClient(this, address);
                 }
                 else
                 {
@@ -154,22 +136,8 @@ namespace Mirror.FizzySteam
 
                 if (!ServerActive())
                 {
-                    if (UseNextGenSteamNetworking)
-                    {
-                        Debug.Log($"Starting server [SteamSockets].");
-                        server = NextServer.CreateServer(this, NetworkManager.singleton.maxConnections);
-                    }
-                    else
-                    {
-                        Debug.Log($"Starting server [DEPRECATED SteamNetworking]. Relay enabled: {AllowSteamRelay}");
-#if UNITY_SERVER
-                        SteamGameServerNetworking.AllowP2PPacketRelay(AllowSteamRelay);
-#else
-
-                        SteamNetworking.AllowP2PPacketRelay(AllowSteamRelay);
-#endif
-                        server = LegacyServer.CreateServer(this, NetworkManager.singleton.maxConnections);
-                    }
+                    Debug.Log($"Starting server [SteamSockets].");
+                    server = NextServer.CreateServer(this, NetworkManager.singleton.maxConnections);
                 }
                 else
                 {
@@ -243,30 +211,7 @@ namespace Mirror.FizzySteam
 
         public override int GetMaxPacketSize(int channelId)
         {
-            if (UseNextGenSteamNetworking)
-            {
-                return Constants.k_cbMaxSteamNetworkingSocketsMessageSizeSend;
-            }
-            else
-            {
-                if (channelId >= Channels.Length)
-                {
-                    Debug.LogError("Channel Id exceeded configured channels! Please configure more channels.");
-                    return 1200;
-                }
-
-                switch (Channels[channelId])
-                {
-                    case EP2PSend.k_EP2PSendUnreliable:
-                    case EP2PSend.k_EP2PSendUnreliableNoDelay:
-                        return 1200;
-                    case EP2PSend.k_EP2PSendReliable:
-                    case EP2PSend.k_EP2PSendReliableWithBuffering:
-                        return 1048576;
-                    default:
-                        throw new NotSupportedException();
-                }
-            }
+            return Constants.k_cbMaxSteamNetworkingSocketsMessageSizeSend;
         }
 
         public override bool Available()
@@ -290,14 +235,11 @@ namespace Mirror.FizzySteam
         {
             try
             {
-                if (UseNextGenSteamNetworking)
-                {
 #if UNITY_SERVER
-                    SteamGameServerNetworkingUtils.InitRelayNetworkAccess();
+                SteamGameServerNetworkingUtils.InitRelayNetworkAccess();
 #else
-                    SteamNetworkingUtils.InitRelayNetworkAccess();
+                SteamNetworkingUtils.InitRelayNetworkAccess();
 #endif
-                }
             }
             catch (Exception ex)
             {
