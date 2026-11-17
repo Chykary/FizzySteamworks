@@ -162,7 +162,7 @@ namespace Mirror.FizzySteam
 
         public void FlushData()
         {
-            foreach (HSteamNetConnection conn in connToMirrorID.FirstTypes.ToList())
+            foreach (HSteamNetConnection conn in connToMirrorID.FirstTypes)
             {
 #if UNITY_SERVER
                 SteamGameServerNetworkingSockets.FlushMessagesOnConnection(conn);
@@ -174,7 +174,7 @@ namespace Mirror.FizzySteam
 
         public void ReceiveData()
         {
-            foreach (HSteamNetConnection conn in connToMirrorID.FirstTypes.ToList())
+            foreach (HSteamNetConnection conn in connToMirrorID.FirstTypes)
             {
                 if (connToMirrorID.TryGetValue(conn, out int connId))
                 {
